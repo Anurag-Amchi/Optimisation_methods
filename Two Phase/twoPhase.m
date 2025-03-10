@@ -51,7 +51,7 @@ fprintf('\nInitial Simplex table:\n');
 disp(table);
 % disp(C1);
 
-% Good luck starting phase without ts
+% Good luck starting phase-2 without ts
 coeffIdx=n+1:n+lessThan;
 
 for i=1:size(C1,2)
