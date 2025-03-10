@@ -12,6 +12,10 @@ C=input('Enter the coefficients of objective function:\n');
 
 extraMat=[];
 C1=zeros(1,n+lessThan+greaterThan);
+
+% This ordering should be maintained during input
+% Also during the code
+% Else prepare for a humongous ahh nuke (amoGUS)
 for i=1:equalTo+greaterThan
     C1=[C1,-1];
 end
@@ -47,6 +51,7 @@ fprintf('\nInitial Simplex table:\n');
 disp(table);
 % disp(C1);
 
+% Good luck starting phase without ts
 coeffIdx=n+1:n+lessThan;
 
 for i=1:size(C1,2)
@@ -109,6 +114,7 @@ while any(Zj_Cj<0)
 end
 
 fprintf('\nPhase 2\n');
+% ez extraction as we structured our input
 table2=table(:,1:end-greaterThan-equalTo-1);
 A2=table2;
 table2=[table2,table(:,end)];
@@ -169,6 +175,7 @@ while any(Zj_Cj<0)
     disp(Zj_Cj);
 end
 
+% istg ts pmo ngl
 xb=zeros(1,n+lessThan+greaterThan);
 for i=1:m
     xb(coeffIdx(i))=table2(i,end);
@@ -177,5 +184,4 @@ end
 fprintf('Optimum solution:')
 disp(xb);
 fprintf('Maximum objective value: %d\n',xb*C2');
-
 
