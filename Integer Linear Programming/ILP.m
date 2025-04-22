@@ -113,10 +113,22 @@ disp(xb);
 
 % ILP starts here
 
-frac=[];
-for i=1:m
-    frac=[frac,table(i,end)-safe_floor(table(i,end))];
-end
+tol = 1e-10;  % Tolerance to treat near-zero as zero
+    frac = [];
+    
+    for i = 1:m
+        val = table(i,end);
+        fl = floor(val);
+        
+        % fprintf('%f %f\n', val, fl);
+        
+        diff = val - fl;
+        if abs(diff) < tol || abs(diff) > 0.9999999
+            diff = 0;  % Snap it to zero if it's basically zero
+        end
+        
+        frac = [frac, diff];
+    end
 if any(frac>0)
     fprintf('Fractional solution obtained. Proceeding further for integer solution\n\n');
 else
@@ -187,7 +199,7 @@ while any(frac>0)
         val = table(i,end);
         fl = floor(val);
         
-        fprintf('%f %f\n', val, fl);
+        % fprintf('%f %f\n', val, fl);
         
         diff = val - fl;
         if abs(diff) < tol || abs(diff) > 0.9999999
@@ -197,13 +209,13 @@ while any(frac>0)
         frac = [frac, diff];
     end
 
-    disp(frac);
+    % disp(frac);
     n=n+1;
     xb=zeros(1,n+lessThan+equalTo+greaterThan);
     for i=1:m
         xb(coeffIdx(i))=table(i,end);
     end
-    disp(xb);
+    % disp(xb);
 end
 
 
@@ -211,11 +223,3 @@ end
 fprintf('Optimum solution:\n');
 disp(xb);
 fprintf('Maximum objective value: %d\n',xb*C');
-
-function out = safe_floor(x)
-    tol = 1e-10;
-    if abs(x - round(x)) < tol
-        x = round(x);
-    end
-    out = floor(x);
-end
